@@ -5541,25 +5541,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var fetchData = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var url, response, geoData;
+    var urlGeoData, urlPositiveMigrationData, urlNegativeMigrationData, response1, geoData, response2, positiveMigrationData, response3, negativeMigrationData;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            url = "https://geo.stat.fi/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typeName=tilastointialueet:kunta4500k&outputFormat=json&srsName=EPSG:4326";
-            _context.next = 3;
-            return fetch(url);
+            urlGeoData = "https://geo.stat.fi/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typeName=tilastointialueet:kunta4500k&outputFormat=json&srsName=EPSG:4326";
+            urlPositiveMigrationData = "https://statfin.stat.fi/PxWeb/sq/4bb2c735-1dc3-4c5e-bde7-2165df85e65f";
+            urlNegativeMigrationData = "https://statfin.stat.fi/PxWeb/sq/944493ca-ea4d-4fd9-a75c-4975192f7b6e";
+            _context.next = 5;
+            return fetch(urlGeoData);
 
-          case 3:
-            response = _context.sent;
-            _context.next = 6;
-            return response.json();
-
-          case 6:
-            geoData = _context.sent;
-            initMap(geoData);
+          case 5:
+            response1 = _context.sent;
+            _context.next = 8;
+            return response1.json();
 
           case 8:
+            geoData = _context.sent;
+            _context.next = 11;
+            return fetch(urlPositiveMigrationData);
+
+          case 11:
+            response2 = _context.sent;
+            _context.next = 14;
+            return response2.json();
+
+          case 14:
+            positiveMigrationData = _context.sent;
+            _context.next = 17;
+            return fetch(urlNegativeMigrationData);
+
+          case 17:
+            response3 = _context.sent;
+            _context.next = 20;
+            return response3.json();
+
+          case 20:
+            negativeMigrationData = _context.sent;
+            initMap(geoData, positiveMigrationData, negativeMigrationData);
+
+          case 22:
           case "end":
             return _context.stop();
         }
@@ -5572,11 +5594,30 @@ var fetchData = /*#__PURE__*/function () {
   };
 }();
 
-var initMap = function initMap(data) {
+var initMap = function initMap(geoData, positiveMigrationData, negativeMigrationData) {
+  var index = 0;
+
+  var getFeature = function getFeature(feature, layer) {
+    index++; //console.log(feature)
+    //layer.bindPopup(`<p>${feature.properties.name}</p>`)
+
+    layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
+    layer.bindPopup("<ul>\n                <li>Positive migration: ".concat(positiveMigrationData.dataset.value[index], "</li>\n                <li>Negative migration: ").concat(negativeMigrationData.dataset.value[index], "</li>\n            </ul>")); //console.log(feature.id)
+    //console.log(positiveMigrationData)
+    //console.log(geoData)
+    //console.log(positiveMigrationData.dataset.value[index])
+  };
+
+  var getStyle = function getStyle(feature) {
+    return {
+      weight: 2
+    };
+  };
+
   var map = L.map('map', {
     minZoom: -3
   });
-  var geoJson = L.geoJSON(data, {
+  var geoJson = L.geoJSON(geoData, {
     onEachFeature: getFeature,
     style: getStyle
   }).addTo(map);
@@ -5598,18 +5639,6 @@ var initMap = function initMap(data) {
   };
   var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
   map.fitBounds(geoJson.getBounds());
-};
-
-var getFeature = function getFeature(feature, layer) {
-  //console.log(feature)
-  //layer.bindPopup(`<p>${feature.properties.name}</p>`)
-  layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
-};
-
-var getStyle = function getStyle(feature) {
-  return {
-    weight: 2
-  };
 };
 
 fetchData();
