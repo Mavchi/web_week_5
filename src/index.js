@@ -29,8 +29,8 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
 
         layer.bindPopup(
             `<ul>
-                <li>Positive migration: ${positiveMigrationData.dataset.value[index]}</li>
-                <li>Negative migration: ${negativeMigrationData.dataset.value[index]}</li>
+                <li>${positiveMigrationData.dataset.value[index]}</li>
+                <li>${negativeMigrationData.dataset.value[index]}</li>
             </ul>`
         )
         //console.log(feature.id)

@@ -5602,7 +5602,7 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
     //layer.bindPopup(`<p>${feature.properties.name}</p>`)
 
     layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
-    layer.bindPopup("<ul>\n                <li>Positive migration: ".concat(positiveMigrationData.dataset.value[index], "</li>\n                <li>Negative migration: ").concat(negativeMigrationData.dataset.value[index], "</li>\n            </ul>")); //console.log(feature.id)
+    layer.bindPopup("<ul>\n                <li>".concat(positiveMigrationData.dataset.value[index], "</li>\n                <li>").concat(negativeMigrationData.dataset.value[index], "</li>\n            </ul>")); //console.log(feature.id)
     //console.log(positiveMigrationData)
     //console.log(geoData)
     //console.log(positiveMigrationData.dataset.value[index])
