@@ -5577,6 +5577,7 @@ var initMap = function initMap(data) {
     minZoom: -3
   });
   var geoJson = L.geoJSON(data, {
+    onEachFeature: getFeature,
     style: getStyle
   }).addTo(map);
   var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -5593,10 +5594,16 @@ var initMap = function initMap(data) {
     "Google Maps": google
   };
   var overlayMaps = {
-    "LUT": geoJson
+    "Suomen kunnat": geoJson
   };
   var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
   map.fitBounds(geoJson.getBounds());
+};
+
+var getFeature = function getFeature(feature, layer) {
+  //console.log(feature)
+  //layer.bindPopup(`<p>${feature.properties.name}</p>`)
+  layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
 };
 
 var getStyle = function getStyle(feature) {

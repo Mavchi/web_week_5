@@ -17,6 +17,7 @@ const initMap = (data) => {
     })
 
     let geoJson = L.geoJSON(data, {
+        onEachFeature: getFeature,
         style: getStyle
     }).addTo(map)
 
@@ -37,14 +38,19 @@ const initMap = (data) => {
     }
 
     let overlayMaps = {
-        "LUT": geoJson
+        "Suomen kunnat": geoJson
     }
 
     let layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-
     map.fitBounds(geoJson.getBounds())
+    
+}
 
+const getFeature = (feature, layer) => {
+    //console.log(feature)
+    //layer.bindPopup(`<p>${feature.properties.name}</p>`)
+    layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
 }
 
 const getStyle = (feature) => {
