@@ -27,16 +27,18 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         //layer.bindPopup(`<p>${feature.properties.name}</p>`)
         layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
 
-        layer.bindPopup(
+        layer.bindPopup(`<ul><li>${positiveMigrationData.dataset.value[index]} ${negativeMigrationData.dataset.value[index]}</ul></li>`
+        )
+        console.log(feature)
+        //console.log(positiveMigrationData)
+        //console.log(geoData)
+        //console.log(positiveMigrationData.dataset.value[index])
+        /*
             `<ul>
                 <li>${positiveMigrationData.dataset.value[index]}</li>
                 <li>${negativeMigrationData.dataset.value[index]}</li>
             </ul>`
-        )
-        //console.log(feature.id)
-        //console.log(positiveMigrationData)
-        //console.log(geoData)
-        //console.log(positiveMigrationData.dataset.value[index])
+        */
     }
 
     const getStyle = (feature) => {
