@@ -5598,12 +5598,12 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
   var index = 0;
 
   var getFeature = function getFeature(feature, layer) {
-    index++; //console.log(feature)
+    index++; //console.log(index)
     //layer.bindPopup(`<p>${feature.properties.name}</p>`)
 
     layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
-    layer.bindPopup("<ul><li>".concat(positiveMigrationData.dataset.value[index], " ").concat(negativeMigrationData.dataset.value[index], "</ul></li>"));
-    console.log(feature); //console.log(positiveMigrationData)
+    layer.bindPopup("<ul><li>".concat(positiveMigrationData.dataset.value[index], "</li><li>").concat(negativeMigrationData.dataset.value[index], "</li></ul>")); //console.log(feature.properties.nimi, )
+    //console.log(positiveMigrationData)
     //console.log(geoData)
     //console.log(positiveMigrationData.dataset.value[index])
 

@@ -23,13 +23,13 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
     let index = 0;
     const getFeature = (feature, layer) => {
         index++;
-        //console.log(feature)
+        //console.log(index)
         //layer.bindPopup(`<p>${feature.properties.name}</p>`)
         layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
 
-        layer.bindPopup(`<ul><li>${positiveMigrationData.dataset.value[index]} ${negativeMigrationData.dataset.value[index]}</ul></li>`
+        layer.bindPopup(`<ul><li>${positiveMigrationData.dataset.value[index]}</li><li>${negativeMigrationData.dataset.value[index]}</li></ul>`
         )
-        console.log(feature)
+        //console.log(feature.properties.nimi, )
         //console.log(positiveMigrationData)
         //console.log(geoData)
         //console.log(positiveMigrationData.dataset.value[index])
