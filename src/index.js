@@ -37,6 +37,10 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         migrationData[municipality] = {}
         migrationData[municipality].negativeMigration = negativeMigrationData.dataset.value[indexOfMunicipality]
         migrationData[municipality].positiveMigration = positiveMigrationData.dataset.value[indexOfMunicipality]
+    
+        let hue = Math.pow(migrationData[municipality].positiveMigration/migrationData[municipality].negativeMigration, 3) * 60
+        let realHue = hue >= 120 ? 120 : hue
+        migrationData[municipality].color = `hsl(${realHue}, 75%, 50%)`
     }
     //console.log(migrationData)
 
@@ -46,7 +50,14 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         //layer.bindPopup(`<p>${feature.properties.name}</p>`)
         layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
         //console.log(feature.properties.name)
-        //layer.bindPopup(`<ul><li>${positiveMigrationData.dataset.value[index]}</li><li>${negativeMigrationData.dataset.value[index]}</li></ul>`)
+        /*
+        layer.bindPopup(`
+            <ul>
+                <li>Positive migration: ${migrationData[feature.properties.name.split(" ")[0]].positiveMigration}</li>
+                <li>Negative migration: ${migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</li>
+            </ul>`
+        )
+        */
         layer.bindPopup(`<p>${migrationData[feature.properties.name.split(" ")[0]].positiveMigration-migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</p>`)
         //console.log(feature)
         //console.log(feature.properties.nimi, index)
@@ -64,6 +75,7 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
     const getStyle = (feature) => {
         return {
             weight: 2,
+            color: migrationData[feature.properties.name.split(" ")[0]].color,
         }
     }
 
