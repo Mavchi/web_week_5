@@ -5607,16 +5607,15 @@ var fetchData = /*#__PURE__*/function () {
 }();
 
 var initMap = function initMap(geoData, positiveMigrationData, negativeMigrationData) {
-  var index = 0;
   var migrationData = {};
 
-  for (var _i = 0, _Object$entries = Object.entries(negativeMigrationData.dataset.dimension['Lähtöalue'].category.label); _i < _Object$entries.length; _i++) {
+  for (var _i = 0, _Object$entries = Object.entries(negativeMigrationData.dataset.dimension["Lähtöalue"].category.label); _i < _Object$entries.length; _i++) {
     var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
         key = _Object$entries$_i[0],
         value = _Object$entries$_i[1];
 
     var municipality = value.split(" ")[2];
-    var indexOfMunicipality = negativeMigrationData.dataset.dimension['Lähtöalue'].category.index[key];
+    var indexOfMunicipality = negativeMigrationData.dataset.dimension["Lähtöalue"].category.index[key];
     migrationData[municipality] = {};
     migrationData[municipality].negativeMigration = negativeMigrationData.dataset.value[indexOfMunicipality];
     migrationData[municipality].positiveMigration = positiveMigrationData.dataset.value[indexOfMunicipality];
@@ -5626,16 +5625,15 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
   }
 
   var getFeature = function getFeature(feature, layer) {
-    index++;
     layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
     /*
-    layer.bindPopup(`
-        <ul>
-            <li>Positive migration: ${migrationData[feature.properties.name.split(" ")[0]].positiveMigration}</li>
-            <li>Negative migration: ${migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</li>
-        </ul>`
-    )
-    */
+        layer.bindPopup(`
+            <ul>
+                <li>Positive migration: ${migrationData[feature.properties.name.split(" ")[0]].positiveMigration}</li>
+                <li>Negative migration: ${migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</li>
+            </ul>`
+        )
+        */
 
     layer.bindPopup("<p>".concat(migrationData[feature.properties.name.split(" ")[0]].positiveMigration - migrationData[feature.properties.name.split(" ")[0]].negativeMigration, "</p>"));
   };
@@ -5647,7 +5645,7 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
     };
   };
 
-  var map = L.map('map', {
+  var map = L.map("map", {
     minZoom: -3
   });
   var geoJson = L.geoJSON(geoData, {
@@ -5659,20 +5657,19 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
     attribution: "© OpenStreetMap"
   }).addTo(map);
   /*
-      let google = L.tileLayer("https://{s}.google.com/vt/lyrs=s@221097413,traffic&x={x}&y={y}&z={z}", {
-          maxZoom: 20,
-          minZoom: 2,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-      }).addTo(map)
-  
-      let baseMaps = {
-          "OpenStreetMap": osm,
-          "Google Maps": google
-      }
+    let google = L.tileLayer("https://{s}.google.com/vt/lyrs=s@221097413,traffic&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        minZoom: 2,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map)
+     let baseMaps = {
+        "OpenStreetMap": osm,
+        "Google Maps": google
+    }
   */
 
   var baseMaps = {
-    "OpenStreetMap": osm
+    OpenStreetMap: osm
   };
   var overlayMaps = {
     "Suomen kunnat": geoJson
