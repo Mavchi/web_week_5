@@ -20,17 +20,36 @@ const fetchData = async () => {
 }
 
 const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
+    //console.log(negativeMigrationData)
     let index = 0;
+    //console.log(geoData)
+
+    /*
+    negativeMigrationData.dataset.dimension['lähtöalue'].category.label
+    */
+    //console.log(negativeMigrationData)
+    //console.log(positiveMigrationData)
+    let migrationData = {}
+    for (const [key, value] of Object.entries(negativeMigrationData.dataset.dimension['Lähtöalue'].category.label)) {
+        let municipality = value.split(" ")[2]
+        let indexOfMunicipality = negativeMigrationData.dataset.dimension['Lähtöalue'].category.index[key]
+        //console.log(municipality)
+        migrationData[municipality] = {}
+        migrationData[municipality].negativeMigration = negativeMigrationData.dataset.value[indexOfMunicipality]
+        migrationData[municipality].positiveMigration = positiveMigrationData.dataset.value[indexOfMunicipality]
+    }
+    //console.log(migrationData)
+
     const getFeature = (feature, layer) => {
         index++;
         //console.log(index)
         //layer.bindPopup(`<p>${feature.properties.name}</p>`)
         layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
-
+        //console.log(feature.properties.name)
         //layer.bindPopup(`<ul><li>${positiveMigrationData.dataset.value[index]}</li><li>${negativeMigrationData.dataset.value[index]}</li></ul>`)
-        layer.bindPopup(`<p>${positiveMigrationData.dataset.value[index]-negativeMigrationData.dataset.value[index]}</p>`)
+        layer.bindPopup(`<p>${migrationData[feature.properties.name.split(" ")[0]].positiveMigration-migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</p>`)
         //console.log(feature)
-        //console.log(feature.properties.nimi, )
+        //console.log(feature.properties.nimi, index)
         //console.log(positiveMigrationData)
         //console.log(geoData)
         //console.log(positiveMigrationData.dataset.value[index])
@@ -61,7 +80,7 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         maxZoom: 19,
         attribution: "© OpenStreetMap"
     }).addTo(map);
-
+/*
     let google = L.tileLayer("https://{s}.google.com/vt/lyrs=s@221097413,traffic&x={x}&y={y}&z={z}", {
         maxZoom: 20,
         minZoom: 2,
@@ -72,7 +91,10 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         "OpenStreetMap": osm,
         "Google Maps": google
     }
-
+*/
+    let baseMaps = {
+    "OpenStreetMap": osm
+    }
     let overlayMaps = {
         "Suomen kunnat": geoJson
     }
