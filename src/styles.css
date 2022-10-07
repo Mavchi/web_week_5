@@ -1,3 +1,5 @@
 body {
   font-family: sans-serif;
 }
+
+#map { height: 97vh; }
