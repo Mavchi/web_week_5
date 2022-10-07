@@ -5607,15 +5607,7 @@ var fetchData = /*#__PURE__*/function () {
 }();
 
 var initMap = function initMap(geoData, positiveMigrationData, negativeMigrationData) {
-  //console.log(negativeMigrationData)
-  var index = 0; //console.log(geoData)
-
-  /*
-  negativeMigrationData.dataset.dimension['lähtöalue'].category.label
-  */
-  //console.log(negativeMigrationData)
-  //console.log(positiveMigrationData)
-
+  var index = 0;
   var migrationData = {};
 
   for (var _i = 0, _Object$entries = Object.entries(negativeMigrationData.dataset.dimension['Lähtöalue'].category.label); _i < _Object$entries.length; _i++) {
@@ -5624,23 +5616,18 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
         value = _Object$entries$_i[1];
 
     var municipality = value.split(" ")[2];
-    var indexOfMunicipality = negativeMigrationData.dataset.dimension['Lähtöalue'].category.index[key]; //console.log(municipality)
-
+    var indexOfMunicipality = negativeMigrationData.dataset.dimension['Lähtöalue'].category.index[key];
     migrationData[municipality] = {};
     migrationData[municipality].negativeMigration = negativeMigrationData.dataset.value[indexOfMunicipality];
     migrationData[municipality].positiveMigration = positiveMigrationData.dataset.value[indexOfMunicipality];
     var hue = Math.pow(migrationData[municipality].positiveMigration / migrationData[municipality].negativeMigration, 3) * 60;
     var realHue = hue >= 120 ? 120 : hue;
     migrationData[municipality].color = "hsl(".concat(realHue, ", 75%, 50%)");
-  } //console.log(migrationData)
-
+  }
 
   var getFeature = function getFeature(feature, layer) {
-    index++; //console.log(index)
-    //layer.bindPopup(`<p>${feature.properties.name}</p>`)
-
-    layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip(); //console.log(feature.properties.name)
-
+    index++;
+    layer.bindTooltip("<p>".concat(feature.properties.name, "</p>")).openTooltip();
     /*
     layer.bindPopup(`
         <ul>
@@ -5650,18 +5637,7 @@ var initMap = function initMap(geoData, positiveMigrationData, negativeMigration
     )
     */
 
-    layer.bindPopup("<p>".concat(migrationData[feature.properties.name.split(" ")[0]].positiveMigration - migrationData[feature.properties.name.split(" ")[0]].negativeMigration, "</p>")); //console.log(feature)
-    //console.log(feature.properties.nimi, index)
-    //console.log(positiveMigrationData)
-    //console.log(geoData)
-    //console.log(positiveMigrationData.dataset.value[index])
-
-    /*
-        `<ul>
-            <li>${positiveMigrationData.dataset.value[index]}</li>
-            <li>${negativeMigrationData.dataset.value[index]}</li>
-        </ul>`
-    */
+    layer.bindPopup("<p>".concat(migrationData[feature.properties.name.split(" ")[0]].positiveMigration - migrationData[feature.properties.name.split(" ")[0]].negativeMigration, "</p>"));
   };
 
   var getStyle = function getStyle(feature) {

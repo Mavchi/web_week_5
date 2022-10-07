@@ -20,20 +20,12 @@ const fetchData = async () => {
 }
 
 const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
-    //console.log(negativeMigrationData)
     let index = 0;
-    //console.log(geoData)
 
-    /*
-    negativeMigrationData.dataset.dimension['lähtöalue'].category.label
-    */
-    //console.log(negativeMigrationData)
-    //console.log(positiveMigrationData)
     let migrationData = {}
     for (const [key, value] of Object.entries(negativeMigrationData.dataset.dimension['Lähtöalue'].category.label)) {
         let municipality = value.split(" ")[2]
         let indexOfMunicipality = negativeMigrationData.dataset.dimension['Lähtöalue'].category.index[key]
-        //console.log(municipality)
         migrationData[municipality] = {}
         migrationData[municipality].negativeMigration = negativeMigrationData.dataset.value[indexOfMunicipality]
         migrationData[municipality].positiveMigration = positiveMigrationData.dataset.value[indexOfMunicipality]
@@ -42,14 +34,11 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         let realHue = hue >= 120 ? 120 : hue
         migrationData[municipality].color = `hsl(${realHue}, 75%, 50%)`
     }
-    //console.log(migrationData)
 
     const getFeature = (feature, layer) => {
         index++;
-        //console.log(index)
-        //layer.bindPopup(`<p>${feature.properties.name}</p>`)
+
         layer.bindTooltip(`<p>${feature.properties.name}</p>`).openTooltip()
-        //console.log(feature.properties.name)
         /*
         layer.bindPopup(`
             <ul>
@@ -59,17 +48,6 @@ const initMap = (geoData, positiveMigrationData, negativeMigrationData) => {
         )
         */
         layer.bindPopup(`<p>${migrationData[feature.properties.name.split(" ")[0]].positiveMigration-migrationData[feature.properties.name.split(" ")[0]].negativeMigration}</p>`)
-        //console.log(feature)
-        //console.log(feature.properties.nimi, index)
-        //console.log(positiveMigrationData)
-        //console.log(geoData)
-        //console.log(positiveMigrationData.dataset.value[index])
-        /*
-            `<ul>
-                <li>${positiveMigrationData.dataset.value[index]}</li>
-                <li>${negativeMigrationData.dataset.value[index]}</li>
-            </ul>`
-        */
     }
 
     const getStyle = (feature) => {
